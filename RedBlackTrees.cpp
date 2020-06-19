@@ -784,7 +784,7 @@ public:
     }
 };
 
-void BFS(RedBlackTree &tree)
+void BFS(RedBlackTree &tree) // to print out contents of tree
 {
     std::queue<Node*> myq;
     Node* i = tree.root;
