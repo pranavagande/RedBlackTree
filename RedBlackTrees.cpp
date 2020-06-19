@@ -1,6 +1,13 @@
 #include <iostream>
 #include <queue>
 
+/*
+Resources:
+
+https://www.programiz.com/dsa/insertion-in-a-red-black-tree
+https://www.youtube.com/watch?v=aA-nLw28eUw
+*/
+
 enum Color { RED, BLACK };
 
 struct Node
@@ -15,7 +22,7 @@ struct Node
 class RedBlackTree
 {
 private:
-    void double_black(Node* node)
+    void double_black(Node* node) // function to handle double black cases during deletion
     {
         root->color = BLACK;
         bool case1 = (node->parent_ptr == nullptr);
@@ -271,8 +278,8 @@ private:
         } 
     }
 
-    void delete_sub(Node* delete_node, bool right_ptr_exists, bool left_ptr_exists)
-    {
+    void delete_sub(Node* delete_node, bool right_ptr_exists, bool left_ptr_exists) // auxiliary function for delete_key()
+    {                                                                               // called to delete node with 0 or 1 children
         if (delete_node->color == BLACK)
         {
             if (right_ptr_exists)
@@ -340,7 +347,7 @@ private:
         }
     }
 
-    void balance(Node* start_ptr)
+    void balance(Node* start_ptr) // balances tree during insertions
     {
         Node* currentnode = start_ptr;
 
@@ -507,31 +514,6 @@ private:
                 }
                 else if (left_right_red)
                 {
-                    /*
-                    Node* parent = currentnode->parent_ptr;
-                    currentnode->color = RED;
-                    currentnode->right_ptr->left_ptr->color = BLACK;
-                    currentnode->right_ptr->left_ptr->left_ptr = currentnode;
-                    currentnode->right_ptr->left_ptr->parent_ptr = parent;
-                    if (currentnode != root)
-                    {
-                        if (currentnode->parent_ptr->left_ptr = currentnode)
-                        {
-                            currentnode->parent_ptr->left_ptr = currentnode->right_ptr->left_ptr;
-                        }
-                        else
-                        {
-                            currentnode->parent_ptr->right_ptr = currentnode->right_ptr;
-                        }
-                    }
-                    else
-                    {
-                        root = currentnode->right_ptr->left_ptr;
-                    }
-                    currentnode->parent_ptr = currentnode->right_ptr->left_ptr;
-                    currentnode->right_ptr = nullptr;
-                    */
-
                     Node* parent = currentnode->parent_ptr;
                     currentnode->color = RED;
                     currentnode->left_ptr->right_ptr->color = BLACK;
@@ -571,7 +553,7 @@ public:
         root->color = BLACK;
     }
 
-    Node* search(int search_key) // returns pointer to node where it was found or if not there, node before nullptr
+    Node* search(int search_key) // returns pointer to node where it was found or, if not there, node before nullptr
     {
         Node* currentnode = root;
         while (search_key != currentnode->key)
@@ -597,7 +579,7 @@ public:
         return currentnode;
     }
 
-    struct Node* predecessor(int key)
+    struct Node* predecessor(int key) // to find predecessor node - for deletions
     {
         Node* key_node = search(key);
         Node* currentnode;
@@ -621,7 +603,7 @@ public:
         return currentnode;
     }
 
-    void delete_key(int delete_key)
+    void delete_key(int delete_key) // deletes key
     {
         Node* node_key = search(delete_key);
         if (node_key->key != delete_key)
